@@ -60,37 +60,7 @@ export default {
         }
     },
     created () {
-        const config = {
-            apiKey: 'AIzaSyAy77CMasWX4GKuE1nGmpinB8C0XybDYkA',
-            authDomain: 'thousand-53a5a.firebaseapp.com',
-            databaseURL: 'https://thousand-53a5a.firebaseio.com',
-            projectId: 'thousand-53a5a',
-            storageBucket: '',
-            messagingSenderId: '542599085794'
-        }
 
-        firebase.initializeApp(config)
-        const db = firebase.database()
-        this.db = db
-
-        db.ref('rooms').on('value', snapshot => {
-            const rooms = _.chain(snapshot.val())
-                .map((val, i) => {
-                    if (val) {
-                        val.index = i
-                    }
-                    return val
-                })
-                .compact()
-                .value()
-            console.log('rooms', rooms)
-            this.store.commit('setRooms', rooms)
-        })
-
-        var starCountRef = db.ref('state')
-        starCountRef.on('value', snapshot => {
-            this.store.commit('setGameState', snapshot.val())
-        })
     },
     methods: {
         onNameSpecified () {
