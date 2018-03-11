@@ -23,7 +23,7 @@
                     <v-ons-col width="20%" class="chair-wrap">
                          <table-chair :position="'first'"></table-chair>
                     </v-ons-col>
-                    <v-ons-col width="60%"><div class="table"> <span>{{roomName}}</span> </div></v-ons-col>
+                    <v-ons-col width="60%"><div class="table"> <span>{{room && room.name}}</span> </div></v-ons-col>
                     <v-ons-col width="20%" class="chair-wrap">
                          <table-chair :position="'second'"></table-chair>
                     </v-ons-col>
@@ -40,8 +40,10 @@
 </template>
 
 <script>
-import * as firebase from 'firebase'
+
 import * as _ from 'lodash'
+import { amISittingHere, everyoneIsSitting } from '../helpers';
+import { db, onRoomsChanged } from '../game-service';
 
 export default {
     name: 'Join',
@@ -49,48 +51,32 @@ export default {
         store () {
             return this.$store
         },
-        roomName () {
-            const room = this.store.state.rooms.find(
-                room => room.index === this.store.state.roomIndex
-            )
-            return room && room.name
+        state () {
+            return this.store.state
+        },
+        room () {
+            return this.store.getters.room;
         },
         count () {
             return this.$store.state.count
         }
     },
-    created () {
-        const config = {
-            apiKey: 'AIzaSyAy77CMasWX4GKuE1nGmpinB8C0XybDYkA',
-            authDomain: 'thousand-53a5a.firebaseapp.com',
-            databaseURL: 'https://thousand-53a5a.firebaseio.com',
-            projectId: 'thousand-53a5a',
-            storageBucket: '',
-            messagingSenderId: '542599085794'
+    watch: {
+        room (newVal, oldVal) {
+            const iAmSittingHere = amISittingHere(newVal, this.state.name);
+            const everyOneIsSittingHere = everyoneIsSitting(newVal);
+            
+            // console.log('iAmSittingHere:', iAmSittingHere)
+            // console.log('everyOneIsSittingHere', everyOneIsSittingHere)
+
+            if(iAmSittingHere && everyOneIsSittingHere) {
+                this.$router.push({ path: `/play/${this.room.name}` })
+            }
         }
-
-        firebase.initializeApp(config)
-        const db = firebase.database()
+    },
+    created () {
         this.db = db
-
-        db.ref('rooms').on('value', snapshot => {
-            const rooms = _.chain(snapshot.val())
-                .map((val, i) => {
-                    if (val) {
-                        val.index = i
-                    }
-                    return val
-                })
-                .compact()
-                .value()
-            console.log('rooms', rooms)
-            this.store.commit('setRooms', rooms)
-        })
-
-        var starCountRef = db.ref('state')
-        starCountRef.on('value', snapshot => {
-            this.store.commit('setGameState', snapshot.val())
-        })
+        onRoomsChanged((rooms) => this.store.commit('setRooms', rooms));
     },
     methods: {
         onNameSpecified () {
@@ -99,12 +85,6 @@ export default {
         },
         onRoomSelected (room) {
             this.store.commit('setRoomIndex', room.index);
-            this.db.ref('rooms/' + room.index +'/state').on('value', snapshot => {
-                const state = snapshot.val();
-                if(state === 1) {
-                    // this.$router.push({ path: `/play/${room.name}` })
-                }
-            })
             this.goNextPage()
         },
         goNextPage () {

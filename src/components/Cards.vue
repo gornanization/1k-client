@@ -1,24 +1,32 @@
 <template>
     <div>
        <p>
-           <strong>{{state.name}}</strong> 
+           <strong>{{ player }}</strong> 
            cards of  
-           <strong>{{ $route.params.id }}</strong> 
+           <strong>{{ room.name }}</strong> 
            table displayed here
+       </p>
+       <p>
+           {{ gameState.cards[player] }}
        </p>
     </div>
 </template>
 
 <script>
-// import * as _ from 'lodash'
+import * as _ from 'lodash'
 import * as firebase from 'firebase'
+import { onGameChanged } from '../game-service'
+import store from '../store'
 
 export default {
     name: 'Cards',
     beforeRouteEnter (to, from, next) {
-        setTimeout(() => {
-            next();
-        }, 1000);
+        const nextOnce = _.once(next);
+        onGameChanged(to.params.id, state => {
+            store.commit('setGameState', state);
+            nextOnce();
+        })
+       
   },
     computed: {
         store () {
@@ -26,9 +34,22 @@ export default {
         },
         state () {
             return this.store.state
+        },
+        player () {
+            return this.state.name;
+        },
+        room () {
+            return this.state.room;
+        },
+        gameState () {
+            return this.state.gameState;
         }
     },
-    created () {},
+    created () {
+        const player = this.state.name;
+
+        console.log(this.gameState.cards[player]);
+    },
     methods: {
     },
     data () {
