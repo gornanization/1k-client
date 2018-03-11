@@ -1,33 +1,20 @@
 <template>
     <div>
-       <p>
-           <strong>{{ player }}</strong> 
-           cards of  
-           <strong>{{ room.name }}</strong> 
-           table displayed here
-       </p>
-       <p>
-           {{ gameState.cards[player] }}
-       </p>
+        <ul class="cards">
+            <li  :key="card" v-for="card in gameState.cards[player]">
+                <div class="cards__card">
+                    {{ card }}
+                </div>
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
 import * as _ from 'lodash'
-import * as firebase from 'firebase'
-import { onGameChanged } from '../game-service'
-import store from '../store'
 
 export default {
     name: 'Cards',
-    beforeRouteEnter (to, from, next) {
-        const nextOnce = _.once(next);
-        onGameChanged(to.params.id, state => {
-            store.commit('setGameState', state);
-            nextOnce();
-        })
-       
-  },
     computed: {
         store () {
             return this.$store
@@ -35,22 +22,19 @@ export default {
         state () {
             return this.store.state
         },
-        player () {
-            return this.state.name;
-        },
         room () {
-            return this.state.room;
+            return this.state.room
         },
         gameState () {
-            return this.state.gameState;
+            return this.state.gameState
+        },
+        player () {
+            return this.state.name
         }
     },
-    created () {
-        const player = this.state.name;
-
-        console.log(this.gameState.cards[player]);
-    },
+    created () {},
     methods: {
+
     },
     data () {
         return {}
@@ -59,5 +43,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$cardWidth: 27vw;
+$cardHeight: $cardWidth * 1.65;
 
+.cards {
+    padding: 0;
+    margin: 0;
+    overflow-x: scroll;
+    list-style: none;
+    display: flex;
+}
+
+.cards__card {
+    color: #fff;
+    font-size: 10vw;
+    width: $cardWidth;
+    height: $cardHeight;
+    background: #ccc;
+    margin: 1px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 </style>

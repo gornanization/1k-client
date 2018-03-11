@@ -1,6 +1,5 @@
 <template>
-    <router-view>
-    </router-view>
+    <router-view style="height: 100%"></router-view>
 </template>
 
 <script>
@@ -13,21 +12,21 @@ export default {
     methods: {},
     watch: {},
     computed: {
-        room() {
+        room () {
             return this.$store.state.room
         }
     },
-    created() {
+    created () {
         this.$router.push({ path: `/${this.room.name}/lobby` })
     },
-    beforeRouteEnter(to, from, next) {
+    beforeRouteEnter (to, from, next) {
         const roomName = to.params.id
         const username = getUsername()
 
         if (!username) {
             return next('/')
         }
-        
+
         getRoom(roomName, room => {
             if (room === null) {
                 return next('/')

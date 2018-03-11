@@ -34,7 +34,7 @@ export default new Vuex.Store({
     },
     getters: {
         room: state => {
-          return state.rooms.find(room => room.name === state.roomIndex);
+            return state.rooms.find(room => room.name === state.roomIndex)
         }
     }
 })

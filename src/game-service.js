@@ -12,35 +12,35 @@ const config = {
 firebase.initializeApp(config)
 const db = firebase.database()
 
-function extendWithIndex(val, i){
-        if (val) {
-            val.index = i
-        }
-        return val
+function extendWithIndex (val, i) {
+    if (val) {
+        val.index = i
+    }
+    return val
 }
 
-function onRoomsChanged(cb) {
+function onRoomsChanged (cb) {
     db.ref('rooms').on('value', snapshot => {
         const rooms = _.chain(snapshot.val())
             .map(extendWithIndex)
             .compact()
             .value()
-        cb(rooms);
-    });
+        cb(rooms)
+    })
 }
 
-function onRoomChanged(roomName, cb) {
-    db.ref('rooms/' + roomName).on('value', snapshot => cb(snapshot.val()));
+function onRoomChanged (roomName, cb) {
+    db.ref('rooms/' + roomName).on('value', snapshot => cb(snapshot.val()))
 }
 
-function getRoom(roomName, cb) {
-    db.ref('rooms/' + roomName).once('value', snapshot => cb(snapshot.val()));
+function getRoom (roomName, cb) {
+    db.ref('rooms/' + roomName).once('value', snapshot => cb(snapshot.val()))
 }
 
-function onGameChanged(roomName, cb) {
+function onGameChanged (roomName, cb) {
     db.ref('game/' + roomName).on('value', snapshot => {
-        cb(snapshot.val());
-    });
+        cb(snapshot.val())
+    })
 }
 
-export { db, onRoomsChanged, onGameChanged, onRoomChanged, getRoom };
+export { db, onRoomsChanged, onGameChanged, onRoomChanged, getRoom }

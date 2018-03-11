@@ -40,10 +40,10 @@
 </template>
 
 <script>
-
 import * as _ from 'lodash'
-import { amISittingHere, everyoneIsSitting } from '../helpers';
-import { db, onRoomsChanged } from '../game-service';
+import { amISittingHere, everyoneIsSitting } from '../helpers'
+import { db, onRoomsChanged } from '../game-service'
+import { getUsername, setUsername } from '../storage-service'
 
 export default {
     name: 'Join',
@@ -55,7 +55,7 @@ export default {
             return this.store.state
         },
         room () {
-            return this.store.getters.room;
+            return this.store.getters.room
         },
         count () {
             return this.$store.state.count
@@ -63,28 +63,29 @@ export default {
     },
     watch: {
         room (newVal, oldVal) {
-            const iAmSittingHere = amISittingHere(newVal, this.state.name);
-            const everyOneIsSittingHere = everyoneIsSitting(newVal);
-            
+            const iAmSittingHere = amISittingHere(newVal, this.state.name)
+            const everyOneIsSittingHere = everyoneIsSitting(newVal)
+
             // console.log('iAmSittingHere:', iAmSittingHere)
             // console.log('everyOneIsSittingHere', everyOneIsSittingHere)
 
-            if(iAmSittingHere && everyOneIsSittingHere) {
-                this.$router.push({ path: `/play/${this.room.name}` })
+            if (iAmSittingHere && everyOneIsSittingHere) {
+                this.$router.push({ path: `/${this.room.name}` })
             }
         }
     },
     created () {
         this.db = db
-        onRoomsChanged((rooms) => this.store.commit('setRooms', rooms));
+        onRoomsChanged(rooms => this.store.commit('setRooms', rooms))
     },
     methods: {
         onNameSpecified () {
             this.store.commit('setName', this.name)
+            setUsername(this.name)
             this.goNextPage()
         },
         onRoomSelected (room) {
-            this.store.commit('setRoomIndex', room.index);
+            this.store.commit('setRoomIndex', room.index)
             this.goNextPage()
         },
         goNextPage () {
@@ -95,7 +96,7 @@ export default {
         return {
             db: null,
             carouselIndex: 0,
-            name: 'adasq'
+            name: getUsername() || ''
         }
     }
 }

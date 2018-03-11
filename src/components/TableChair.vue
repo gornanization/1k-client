@@ -21,8 +21,8 @@ export default {
             return this.store.state
         },
         room () {
-            return this.state.room;
-        },
+            return this.state.room
+        }
     },
     created () {},
     methods: {

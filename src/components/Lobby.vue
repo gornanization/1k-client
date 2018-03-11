@@ -22,17 +22,12 @@
 <script>
 
 import * as _ from 'lodash'
-import { amISittingHere, everyoneIsSitting } from '../helpers';
-import { onRoomsChanged, onGameChanged } from '../game-service';
-import store from '../store';
+import { amISittingHere, everyoneIsSitting } from '../helpers'
 
 export default {
     name: 'Lobby',
-    beforeRouteEnter(to, from, next) {
-        console.log('Lobby', to);
-        console.log(store.state.name);
-        console.log(store.state.room.name);
-        next();
+    beforeRouteEnter (to, from, next) {
+        next()
     },
     computed: {
         store () {
@@ -42,27 +37,27 @@ export default {
             return this.store.state
         },
         room () {
-            return this.state.room;
+            return this.state.room
         }
     },
     watch: {
         room (newVal, oldVal) {
-            this.onRoomChanged();
+            this.onRoomChanged()
         }
     },
     created () {
-        console.log('Lobby created');
-        this.onRoomChanged();
+        console.log('Lobby created')
+        this.onRoomChanged()
     },
     methods: {
-        onRoomChanged() {
-            const iAmSittingHere = amISittingHere(this.room, this.state.name);
-            const everyOneIsSittingHere = everyoneIsSitting(this.room);
-            
+        onRoomChanged () {
+            const iAmSittingHere = amISittingHere(this.room, this.state.name)
+            const everyOneIsSittingHere = everyoneIsSitting(this.room)
+
             console.log('iAmSittingHere:', iAmSittingHere)
             console.log('everyOneIsSittingHere', everyOneIsSittingHere)
 
-            if(iAmSittingHere && everyOneIsSittingHere) {
+            if (iAmSittingHere && everyOneIsSittingHere) {
                 this.$router.push({ path: `/${this.room.name}/game` })
             }
         }
