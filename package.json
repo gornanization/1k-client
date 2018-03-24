@@ -9,11 +9,13 @@
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "fix": "eslint --ext .js,.vue src --fix",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "heroku": "node build/build.js; node main.js"
   },
   "dependencies": {
     "1k": "0.0.8",
     "firebase": "^4.9.0",
+    "http-server": "0.11.1",
     "lodash": "4.17.4",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
