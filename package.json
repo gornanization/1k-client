@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js,.vue src",
     "fix": "eslint --ext .js,.vue src --fix",
     "build": "node build/build.js",
-    "heroku": "node build/build.js; node main.js"
+    "heroku": "node main.js"
   },
   "dependencies": {
     "1k": "0.0.8",
