@@ -1,4 +1,4 @@
-const storage = window.localStorage
+const storage = window.sessionStorage
 
 export function getUsername () {
     return storage.getItem('username')

@@ -1,17 +1,13 @@
 <template>
 <div>
         <cards></cards>
-
-     <v-ons-action-sheet :visible.sync="bidPopupVisible" cancelable title="Bid:">
-      <v-ons-action-sheet-button @click="onBidCreated()">Label 1</v-ons-action-sheet-button>
-      <v-ons-action-sheet-button >Pass</v-ons-action-sheet-button>
-    </v-ons-action-sheet>
+        <bid></bid>
 </div>
 </template>
 
 <script>
 import * as _ from 'lodash'
-import { Phase } from '1k'
+import { Phase, getNextBiddingTurn } from '../../../1k/dist/src/index'
 import { onGameChanged } from '../game-service'
 import store from '../store'
 
@@ -20,7 +16,9 @@ export default {
     beforeRouteEnter (to, from, next) {
         const nextOnce = _.once(next)
         onGameChanged(to.params.id, state => {
-            store.commit('setGameState', state)
+            if(!state) return;
+            if(!state.bid) return;
+            store.commit('setGameState', state);
             nextOnce()
         })
     },
@@ -43,22 +41,20 @@ export default {
     },
     created () {
         const player = this.state.name
-
-        console.log(this.gameState.cards[player])
+        // console.log(this.gameState.cards[player])
     },
     watch: {
-        gameState(gameState) {
-            switch(gameState.phase) {
-                case Phase.BIDDING_IN_PROGRESS: {
-                    console.log(gameState.phase);
-                }
+        gameState (gameState) {
+            switch (gameState.phase) {
+            case Phase.BIDDING_IN_PROGRESS: {
+                console.log(gameState.phase)
             }
-            
+            }
         }
     },
     methods: {
-        onBidCreated() {
-            this.bidPopupVisible = false;
+        onBidCreated () {
+            this.bidPopupVisible = false
         }
     },
     data () {

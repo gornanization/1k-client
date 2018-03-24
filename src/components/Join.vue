@@ -66,11 +66,8 @@ export default {
             const iAmSittingHere = amISittingHere(newVal, this.state.name)
             const everyOneIsSittingHere = everyoneIsSitting(newVal)
 
-            // console.log('iAmSittingHere:', iAmSittingHere)
-            // console.log('everyOneIsSittingHere', everyOneIsSittingHere)
-
             if (iAmSittingHere && everyOneIsSittingHere) {
-                this.$router.push({ path: `/${this.room.name}` })
+                this.$router.push({ path: `/${this.room.name}/lobby` })
             }
         }
     },

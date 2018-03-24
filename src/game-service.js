@@ -43,4 +43,9 @@ function onGameChanged (roomName, cb) {
     })
 }
 
-export { db, onRoomsChanged, onGameChanged, onRoomChanged, getRoom }
+function performAction (roomName, action) {
+    let newPostRef = db.ref('actions/' + roomName).push()
+    newPostRef.set(action)
+}
+
+export { performAction, db, onRoomsChanged, onGameChanged, onRoomChanged, getRoom }
