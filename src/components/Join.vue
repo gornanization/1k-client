@@ -16,25 +16,6 @@
             </v-ons-list-item>
         </v-ons-list>
     </v-ons-carousel-item>
-
-    <v-ons-carousel-item class="table-view">
-            <div>
-                <v-ons-row>
-                    <v-ons-col width="20%" class="chair-wrap">
-                         <table-chair :position="'first'"></table-chair>
-                    </v-ons-col>
-                    <v-ons-col width="60%"><div class="table"> <span>{{room && room.name}}</span> </div></v-ons-col>
-                    <v-ons-col width="20%" class="chair-wrap">
-                         <table-chair :position="'second'"></table-chair>
-                    </v-ons-col>
-                </v-ons-row>
-                <v-ons-row>
-                <v-ons-col class="chair-wrap bottom-chair">
-                         <table-chair :position="'third'"></table-chair>
-                    </v-ons-col>
-                </v-ons-row>
-            </div>
-    </v-ons-carousel-item>
   </v-ons-carousel>
      </v-ons-page>
 </template>
@@ -42,7 +23,7 @@
 <script>
 import * as _ from 'lodash'
 import { amISittingHere, everyoneIsSitting } from '../helpers'
-import { db, onRoomsChanged } from '../game-service'
+import { onRoomsChanged } from '../game-service'
 import { getUsername, setUsername } from '../storage-service'
 
 export default {
@@ -62,17 +43,8 @@ export default {
         }
     },
     watch: {
-        room (newVal, oldVal) {
-            const iAmSittingHere = amISittingHere(newVal, this.state.name)
-            const everyOneIsSittingHere = everyoneIsSitting(newVal)
-
-            if (iAmSittingHere && everyOneIsSittingHere) {
-                this.$router.push({ path: `/${this.room.name}/lobby` })
-            }
-        }
     },
     created () {
-        this.db = db
         onRoomsChanged(rooms => this.store.commit('setRooms', rooms))
     },
     methods: {
@@ -82,8 +54,8 @@ export default {
             this.goNextPage()
         },
         onRoomSelected (room) {
-            this.store.commit('setRoomIndex', room.index)
-            this.goNextPage()
+            this.store.commit('setRoom', room)
+            this.$router.push({ path: `/${room.name}/lobby` })
         },
         goNextPage () {
             this.carouselIndex++
@@ -91,7 +63,6 @@ export default {
     },
     data () {
         return {
-            db: null,
             carouselIndex: 0,
             name: getUsername() || ''
         }
