@@ -17,11 +17,11 @@ export default {
         store () {
             return this.$store
         },
-        room () {
-            return this.state.rooms.find(room => room.index === this.state.roomIndex)
-        },
         state () {
             return this.store.state
+        },
+        room () {
+            return this.state.room
         }
     },
     created () {},
@@ -46,16 +46,13 @@ export default {
         updatePos (val) {
             firebase
                 .database()
-                .ref('/rooms/' + this.state.roomIndex)
+                .ref('/rooms/' + this.state.room.name)
                 .update({
                     [this.position]: val
                 })
         },
         sit () {
             this.updatePos(this.state.name)
-            firebase.database().ref('/rooms/' + this.state.roomIndex).onDisconnect().update({
-                [this.position]: null
-            });
         },
         stand () {
             this.updatePos(null)

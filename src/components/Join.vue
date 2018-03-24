@@ -16,32 +16,15 @@
             </v-ons-list-item>
         </v-ons-list>
     </v-ons-carousel-item>
-
-    <v-ons-carousel-item class="table-view">
-            <div>
-                <v-ons-row>
-                    <v-ons-col width="20%" class="chair-wrap">
-                         <table-chair :position="'first'"></table-chair>
-                    </v-ons-col>
-                    <v-ons-col width="60%"><div class="table"> <span>{{roomName}}</span> </div></v-ons-col>
-                    <v-ons-col width="20%" class="chair-wrap">
-                         <table-chair :position="'second'"></table-chair>
-                    </v-ons-col>
-                </v-ons-row>
-                <v-ons-row>
-                <v-ons-col class="chair-wrap bottom-chair">
-                         <table-chair :position="'third'"></table-chair>
-                    </v-ons-col>
-                </v-ons-row>
-            </div>
-    </v-ons-carousel-item>
   </v-ons-carousel>
      </v-ons-page>
 </template>
 
 <script>
-import * as firebase from 'firebase'
 import * as _ from 'lodash'
+import { amISittingHere, everyoneIsSitting } from '../helpers'
+import { onRoomsChanged } from '../game-service'
+import { getUsername, setUsername } from '../storage-service'
 
 export default {
     name: 'Join',
@@ -49,63 +32,30 @@ export default {
         store () {
             return this.$store
         },
-        roomName () {
-            const room = this.store.state.rooms.find(
-                room => room.index === this.store.state.roomIndex
-            )
-            return room && room.name
+        state () {
+            return this.store.state
+        },
+        room () {
+            return this.store.getters.room
         },
         count () {
             return this.$store.state.count
         }
     },
+    watch: {
+    },
     created () {
-        const config = {
-            apiKey: 'AIzaSyAy77CMasWX4GKuE1nGmpinB8C0XybDYkA',
-            authDomain: 'thousand-53a5a.firebaseapp.com',
-            databaseURL: 'https://thousand-53a5a.firebaseio.com',
-            projectId: 'thousand-53a5a',
-            storageBucket: '',
-            messagingSenderId: '542599085794'
-        }
-
-        firebase.initializeApp(config)
-        const db = firebase.database()
-        this.db = db
-
-        db.ref('rooms').on('value', snapshot => {
-            const rooms = _.chain(snapshot.val())
-                .map((val, i) => {
-                    if (val) {
-                        val.index = i
-                    }
-                    return val
-                })
-                .compact()
-                .value()
-            console.log('rooms', rooms)
-            this.store.commit('setRooms', rooms)
-        })
-
-        var starCountRef = db.ref('state')
-        starCountRef.on('value', snapshot => {
-            this.store.commit('setGameState', snapshot.val())
-        })
+        onRoomsChanged(rooms => this.store.commit('setRooms', rooms))
     },
     methods: {
         onNameSpecified () {
             this.store.commit('setName', this.name)
+            setUsername(this.name)
             this.goNextPage()
         },
         onRoomSelected (room) {
-            this.store.commit('setRoomIndex', room.index);
-            this.db.ref('rooms/' + room.index +'/state').on('value', snapshot => {
-                const state = snapshot.val();
-                if(state === 1) {
-                    // this.$router.push({ path: `/play/${room.name}` })
-                }
-            })
-            this.goNextPage()
+            this.store.commit('setRoom', room)
+            this.$router.push({ path: `/${room.name}/lobby` })
         },
         goNextPage () {
             this.carouselIndex++
@@ -113,9 +63,8 @@ export default {
     },
     data () {
         return {
-            db: null,
             carouselIndex: 0,
-            name: 'adasq'
+            name: getUsername() || ''
         }
     }
 }
