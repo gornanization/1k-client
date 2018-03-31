@@ -2,6 +2,7 @@
 <div>
         <cards></cards>
         <bid></bid>
+        <options></options>
 </div>
 </template>
 
