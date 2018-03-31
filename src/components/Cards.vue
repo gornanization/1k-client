@@ -1,19 +1,22 @@
 <template>
     <div>
         <ul class="cards">
-            <li  :key="card" v-for="card in gameState.cards[player]">
-                <div @click="onCardClick(card)" class="cards__card">
-                    {{ card }}
-                </div>
+            <li :key="card" v-for="card in sorterdCards">
+                <card :card="card" @click="onCardClick(card)">
+                </card>
             </li>
         </ul>
+        <p>
+            {{sorterdCards.join(' ')}}
+        </p>
     </div>
 </template>
 
 <script>
 import * as _ from 'lodash'
 import * as gameService from '../game-service'
-import { Phase } from '../../../1k/dist/src/index'
+import { Phase, toCard } from '../../../1k/dist/src/index'
+import { sortCards } from '../helpers';
 
 export default {
     name: 'Cards',
@@ -38,6 +41,12 @@ export default {
         },
         player () {
             return this.state.name
+        },
+        cards () {
+            return this.gameState.cards[this.player]
+        },
+        sorterdCards () {
+            return sortCards(this.cards);
         },
         opponents() {
             if(!this.gameState.players) return;
@@ -89,27 +98,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-$cardWidth: 27vw;
-$cardHeight: $cardWidth * 1.65;
-
 .cards {
     padding: 0;
     margin: 0;
     overflow-x: scroll;
     list-style: none;
     display: flex;
-}
-
-.cards__card {
-    color: #fff;
-    font-size: 10vw;
-    width: $cardWidth;
-    height: $cardHeight;
-    background: #ccc;
-    margin: 1px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 </style>
