@@ -5,7 +5,7 @@
                 <v-ons-range v-model="bid.value"
                     min="100" max="320" step="10" style="width: 100%;">
                 </v-ons-range>
-                
+
                 <v-ons-button @click="onBidSelected()" modifier="large"> Bid {{ bid.value }} </v-ons-button>
             </div>
         </v-ons-dialog>
@@ -22,8 +22,6 @@
 </template>
 
 <script>
-import * as _ from 'lodash'
-import { Phase, getNextBiddingTurn, getNextTurn } from '../../../1k/dist/src/index'
 import * as gameService from '../game-service'
 
 export default {
@@ -52,9 +50,9 @@ export default {
         show () {
             this.optionsVisible = true
         },
-        onBidSelected() {
-            this.sendIncreaseBidAction();
-            this.hideIncreaseBidPanel();
+        onBidSelected () {
+            this.sendIncreaseBidAction()
+            this.hideIncreaseBidPanel()
         },
         showIncreaseBidPanel () {
             this.increaseBidPanelVisible = true
@@ -63,14 +61,14 @@ export default {
             this.increaseBidPanelVisible = false
         },
         onIncreaseBidSelected () {
-            this.showIncreaseBidPanel();
-            this.hide();
+            this.showIncreaseBidPanel()
+            this.hide()
         },
-        sendIncreaseBidAction() {
+        sendIncreaseBidAction () {
             gameService.performAction(this.room.name, {
-                type: 'increaseBid', 
+                type: 'increaseBid',
                 args: [this.player, +this.bid.value]
-            });
+            })
         }
     },
     data () {

@@ -9,14 +9,14 @@ export function everyoneIsSitting ({first, second, third}) {
     return !!(first && second && third)
 }
 
-export function isSuit(suit) {
-    return card => card.suit === suit;
+export function isSuit (suit) {
+    return card => card.suit === suit
 }
 
-export function sortCards(cards) {
+export function sortCards (cards) {
     cards = cards.map(toCard)
 
-    function getSortedCardsBySuit(suit) {
+    function getSortedCardsBySuit (suit) {
         return _.chain(cards)
             .filter(isSuit(suit))
             .sortBy([card => getPointsByCard(card)])
@@ -24,11 +24,11 @@ export function sortCards(cards) {
             .map(toCardPattern)
             .value()
     }
-    
+
     return [
-        ...getSortedCardsBySuit(Suit.Heart), 
+        ...getSortedCardsBySuit(Suit.Heart),
         ...getSortedCardsBySuit(Suit.Diamond),
         ...getSortedCardsBySuit(Suit.Club),
-        ...getSortedCardsBySuit(Suit.Spade),
+        ...getSortedCardsBySuit(Suit.Spade)
     ]
 }

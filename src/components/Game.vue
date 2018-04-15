@@ -1,5 +1,6 @@
 <template>
 <div>
+        <notification></notification>
         <cards></cards>
         <bid></bid>
         <options></options>
@@ -8,7 +9,7 @@
 
 <script>
 import * as _ from 'lodash'
-import { Phase, getNextBiddingTurn } from '../../../1k/dist/src/index'
+import { Phase, extendStateWithDefaults } from '../../../1k/dist/src/index'
 import { onGameChanged } from '../game-service'
 import store from '../store'
 
@@ -17,9 +18,9 @@ export default {
     beforeRouteEnter (to, from, next) {
         const nextOnce = _.once(next)
         onGameChanged(to.params.id, state => {
-            if(!state) return;
-            if(!state.bid) return;
-            store.commit('setGameState', state);
+            if (!state) return
+            console.log('111', extendStateWithDefaults(state))
+            store.commit('setGameState', extendStateWithDefaults(state))
             nextOnce()
         })
     },
@@ -39,10 +40,6 @@ export default {
         gameState () {
             return this.state.gameState
         }
-    },
-    created () {
-        const player = this.state.name
-        // console.log(this.gameState.cards[player])
     },
     watch: {
         gameState (gameState) {
