@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import * as _ from 'lodash'
 import { onRoomChanged, getRoom } from '../game-service'
 import { getUsername } from '../storage-service'
 import store from '../store'

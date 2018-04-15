@@ -1,4 +1,5 @@
 import * as firebase from 'firebase'
+import * as _ from 'lodash'
 
 const config = {
     apiKey: 'AIzaSyAy77CMasWX4GKuE1nGmpinB8C0XybDYkA',

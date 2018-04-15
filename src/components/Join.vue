@@ -21,8 +21,6 @@
 </template>
 
 <script>
-import * as _ from 'lodash'
-import { amISittingHere, everyoneIsSitting } from '../helpers'
 import { onRoomsChanged } from '../game-service'
 import { getUsername, setUsername } from '../storage-service'
 

@@ -6,15 +6,13 @@
 </template>
 
 <script>
-// import * as _ from 'lodash'
-import * as firebase from 'firebase'
 import { toCard } from '../../../1k/dist/src/index'
 
 const rankToNameMap = {
     '♥': 'heart',
     '♦': 'diamond',
     '♣': 'club',
-    '♠': 'spade',
+    '♠': 'spade'
 }
 
 export default {
@@ -31,16 +29,16 @@ export default {
             return this.state.room
         },
         rank () {
-            return toCard(this.card).rank;
+            return toCard(this.card).rank
         },
         suit () {
-            return toCard(this.card).suit;
-        },
+            return toCard(this.card).suit
+        }
     },
     methods: {
-      getSuitNameBySuit(suit) {
-          return rankToNameMap[suit]
-      }
+        getSuitNameBySuit (suit) {
+            return rankToNameMap[suit]
+        }
     }
 }
 </script>

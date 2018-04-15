@@ -1,9 +1,8 @@
 <template>
     <div>
         <ul class="cards">
-            <li :key="card" v-for="card in sorterdCards">
-                <card :card="card" @click="onCardClick(card)">
-                </card>
+            <li :key="card" v-for="card in sorterdCards" @click="onCardClick(card)">
+                <card :card="card"> </card>
             </li>
         </ul>
         <p>
@@ -15,8 +14,8 @@
 <script>
 import * as _ from 'lodash'
 import * as gameService from '../game-service'
-import { Phase, toCard } from '../../../1k/dist/src/index'
-import { sortCards } from '../helpers';
+import { Phase } from '../../../1k/dist/src/index'
+import { sortCards } from '../helpers'
 
 export default {
     name: 'Cards',
@@ -46,22 +45,22 @@ export default {
             return this.gameState.cards[this.player]
         },
         sorterdCards () {
-            return sortCards(this.cards);
+            return sortCards(this.cards)
         },
-        opponents() {
-            if(!this.gameState.players) return;
+        opponents () {
+            if (!this.gameState.players) return
             return _.chain(this.gameState.players)
                 .map('id')
-                .filter(player => player != this.player)
+                .filter(player => player !== this.player)
                 .value()
         }
     },
     created () {},
     methods: {
         onCardClick (card) {
-            let action;
+            let action
 
-            if(this.isSharingStockPhase) {
+            if (this.isSharingStockPhase) {
                 const opponent = _.chain(this.opponents)
                     .map(name => ({
                         name: name,
@@ -70,25 +69,25 @@ export default {
                     .filter(opponent => opponent.totalCards === 7)
                     .map('name')
                     .first()
-                    .value();
+                    .value()
 
                 action = {
-                    type: 'shareStock', 
+                    type: 'shareStock',
                     args: [this.player, card, opponent]
-                };                    
+                }
             }
 
-            if(this.isTrickInProgressPhase) {
+            if (this.isTrickInProgressPhase) {
                 action = {
-                    type: 'throwCard', 
+                    type: 'throwCard',
                     args: [card, this.player]
-                };    
+                }
             }
 
-            if(!action) return;
+            if (!action) return
 
-            console.log(action);
-            gameService.performAction(this.room.name, action);
+            console.log(action)
+            gameService.performAction(this.room.name, action)
         }
     },
     data () {

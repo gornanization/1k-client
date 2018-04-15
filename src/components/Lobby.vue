@@ -21,7 +21,6 @@
 
 <script>
 
-import * as _ from 'lodash'
 import { amISittingHere, everyoneIsSitting } from '../helpers'
 
 export default {
