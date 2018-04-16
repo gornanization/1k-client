@@ -42,7 +42,7 @@ export default {
             return this.state.name
         },
         cards () {
-            return this.gameState.cards[this.player]
+            return this.gameState.cards[this.player] || []
         },
         sorterdCards () {
             return sortCards(this.cards)

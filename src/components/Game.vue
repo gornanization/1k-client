@@ -19,7 +19,7 @@ export default {
         const nextOnce = _.once(next)
         onGameChanged(to.params.id, state => {
             if (!state) return
-            console.log('111', extendStateWithDefaults(state))
+            console.log('game state:', JSON.stringify(extendStateWithDefaults(state)))
             store.commit('setGameState', extendStateWithDefaults(state))
             nextOnce()
         })
