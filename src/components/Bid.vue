@@ -9,7 +9,7 @@
 
 <script>
 import * as _ from 'lodash'
-import { Phase, getNextTurn } from '../../../1k/dist/src/index'
+import { Phase, getNextTurn } from '1k'
 import * as gameService from '../game-service'
 
 export default {

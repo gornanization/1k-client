@@ -65,12 +65,12 @@ export default {
             this.showIncreaseBidPanel()
             this.hide()
         },
-        onThrowABombSelected() {
+        onThrowABombSelected () {
             gameService.performAction(this.room.name, {
                 type: 'declareBomb',
                 args: [this.player]
             })
-            this.hide();
+            this.hide()
         },
         sendIncreaseBidAction () {
             gameService.performAction(this.room.name, {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { toCard } from '../../../1k/dist/src/index'
+import { toCard } from '1k'
 
 const rankToNameMap = {
     '♥': 'heart',

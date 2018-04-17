@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import { toCard, Suit, getPointsByCard, toCardPattern } from '../../1k/dist/src/index'
+import { toCard, Suit, getPointsByCard, toCardPattern } from '1k'
 
 export function amISittingHere ({first, second, third}, name) {
     return [first, second, third].includes(name)

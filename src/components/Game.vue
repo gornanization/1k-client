@@ -9,7 +9,7 @@
 
 <script>
 import * as _ from 'lodash'
-import { Phase, extendStateWithDefaults } from '../../../1k/dist/src/index'
+import { Phase, extendStateWithDefaults } from '1k'
 import { onGameChanged } from '../game-service'
 import store from '../store'
 
