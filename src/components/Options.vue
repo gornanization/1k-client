@@ -12,6 +12,7 @@
 
         <v-ons-action-sheet cancelable :visible.sync="optionsVisible" title="Options:">
             <v-ons-action-sheet-button @click="onIncreaseBidSelected()">Increase Bid</v-ons-action-sheet-button>
+            <v-ons-action-sheet-button @click="onThrowABombSelected()">Throw A bomb</v-ons-action-sheet-button>
             <v-ons-action-sheet-button @click="hide()">Close</v-ons-action-sheet-button>
         </v-ons-action-sheet>
 
@@ -63,6 +64,13 @@ export default {
         onIncreaseBidSelected () {
             this.showIncreaseBidPanel()
             this.hide()
+        },
+        onThrowABombSelected() {
+            gameService.performAction(this.room.name, {
+                type: 'declareBomb',
+                args: [this.player]
+            })
+            this.hide();
         },
         sendIncreaseBidAction () {
             gameService.performAction(this.room.name, {
