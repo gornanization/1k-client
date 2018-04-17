@@ -10,7 +10,7 @@
     "fix": "eslint --ext .js,.vue src --fix",
     "build": "node build/build.js",
     "start": "node main.js",
-    "postinstall": "node build/build.js"
+    "postinstall2": "node build/build.js"
   },
   "dependencies": {
     "1k": "0.0.9",
