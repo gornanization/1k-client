@@ -2,13 +2,13 @@
   "name": "1k-client",
   "version": "1.0.0",
   "description": "Client for Thousand Card Game",
-  "author": "adasq <asnaebaem@gmail.com>",
+  "author": "adasq",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "lint": "eslint --ext .js,.vue src",
     "fix": "eslint --ext .js,.vue src --fix",
-    "build": "node build/build.js",
+    "build": "node build/build.js; cp manifest.json dist/manifest.json",
     "start": "node main.js",
     "postinstall": "npm run build"
   },
