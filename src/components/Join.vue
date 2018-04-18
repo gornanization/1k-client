@@ -3,7 +3,7 @@
 <v-ons-carousel fullscreen auto-scroll overscrollable :index.sync="carouselIndex">
     <v-ons-carousel-item class="login-view">
           <div class="form-wrap">
-            <v-ons-input v-model="name" id="username" modifier="underbar" placeholder="Username" float></v-ons-input>
+            <v-ons-input v-on:keyup.enter="onNameSpecified()" autofocus v-model="name" id="username" modifier="underbar" placeholder="Username" float></v-ons-input>
             <ons-button modifier="large outline" v-on:click="onNameSpecified()">Join</ons-button>
         </div>
     </v-ons-carousel-item>
@@ -68,7 +68,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .login-view {
     display: flex;
