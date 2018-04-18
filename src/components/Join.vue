@@ -7,9 +7,8 @@
             <ons-button modifier="large outline" v-on:click="onNameSpecified()">Join</ons-button>
         </div>
     </v-ons-carousel-item>
-
-    <v-ons-carousel-item>
-        <v-ons-list modifier="inset">
+    <v-ons-carousel-item style="overflow: auto;">
+        <v-ons-list  modifier="inset">
             <v-ons-list-header>Choose Table</v-ons-list-header>
             <v-ons-list-item v-on:click="onRoomSelected(room)" :key="room.name" v-for="room in store.state.rooms" modifier="longdivider">
                 {{room.name}}

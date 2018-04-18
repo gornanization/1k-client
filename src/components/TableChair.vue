@@ -3,6 +3,7 @@
         <v-ons-icon v-if="isReservedByOtherPlayer()" class="reserved-icon" icon="ion-person"></v-ons-icon>
         <v-ons-button modifier="quiet" v-if="isNotReserved() && !iAmSittingHere()" v-on:click="sit()">Sit</v-ons-button>
         <v-ons-button modifier="quiet" v-if="isReservedByMe()" v-on:click="stand()">Stand</v-ons-button>
+        <v-ons-button modifier="quiet" v-if="isNotReserved() && iAmSittingHere()" v-on:click="inviteBot()">Invite bot</v-ons-button>
     </div>
 </template>
 
@@ -53,6 +54,12 @@ export default {
         },
         sit () {
             this.updatePos(this.state.name)
+        },
+        getBotName () {
+            return `${this.position}-bot`
+        },
+        inviteBot () {
+            this.updatePos(this.getBotName())
         },
         stand () {
             this.updatePos(null)
