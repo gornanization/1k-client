@@ -12,7 +12,7 @@
 
         <v-ons-action-sheet cancelable :visible.sync="optionsVisible" title="Options:">
             <v-ons-action-sheet-button @click="onIncreaseBidSelected()">Increase Bid</v-ons-action-sheet-button>
-            <v-ons-action-sheet-button @click="onThrowABombSelected()">Throw A bomb</v-ons-action-sheet-button>
+            <v-ons-action-sheet-button @click="onThrowABombSelected()">Declare a Bomb</v-ons-action-sheet-button>
             <v-ons-action-sheet-button @click="hide()">Close</v-ons-action-sheet-button>
         </v-ons-action-sheet>
 

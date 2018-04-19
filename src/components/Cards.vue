@@ -2,7 +2,7 @@
     <div>
         <ul class="cards">
             <li :key="card" v-for="card in sorterdCards" @click="onCardClick(card)">
-                <card :card="card"> </card>
+                <card :card="card"></card>
             </li>
         </ul>
         <p>
