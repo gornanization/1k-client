@@ -14,7 +14,7 @@
 <script>
 import * as _ from 'lodash'
 import * as gameService from '../game-service'
-import { Phase } from '../../../1k/dist/src/index'
+import { Phase } from '1k'
 import { sortCards } from '../helpers'
 
 export default {
@@ -42,7 +42,7 @@ export default {
             return this.state.name
         },
         cards () {
-            return this.gameState.cards[this.player]
+            return this.gameState.cards[this.player] || []
         },
         sorterdCards () {
             return sortCards(this.cards)

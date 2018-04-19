@@ -21,7 +21,7 @@ export default {
     beforeRouteEnter (to, from, next) {
         const roomName = to.params.id
         const username = getUsername()
-
+        document.title = username || ''
         if (!username) {
             return next('/')
         }

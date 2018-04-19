@@ -9,7 +9,7 @@
 
 <script>
 import * as _ from 'lodash'
-import { Phase, extendStateWithDefaults } from '../../../1k/dist/src/index'
+import { Phase, extendStateWithDefaults } from '1k'
 import { onGameChanged } from '../game-service'
 import store from '../store'
 
@@ -19,7 +19,7 @@ export default {
         const nextOnce = _.once(next)
         onGameChanged(to.params.id, state => {
             if (!state) return
-            console.log('111', extendStateWithDefaults(state))
+            console.log('game state:', JSON.stringify(extendStateWithDefaults(state)))
             store.commit('setGameState', extendStateWithDefaults(state))
             nextOnce()
         })
